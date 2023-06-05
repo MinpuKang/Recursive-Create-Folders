@@ -16,7 +16,9 @@ rootFoler:
 ```
 
 ### example to run
+```
 ./foldergen.py template.yaml 
+```
 
 ### result based on tempalte yaml file
 ```
