@@ -1,0 +1,10 @@
+rootFoler:
+    parentFolder1:
+        sonFolder1:
+            grandsonFolder1:
+        sonFolder2:
+    parentFolder2:
+        sonFolder2:
+        sonFolder3:
+            grandsonFolder1:
+            grandsonFolder2:
