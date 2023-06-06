@@ -17,7 +17,14 @@ rootFoler:
 
 ### example to run
 ```
-./foldergen.py template.yaml 
+$ ./foldergen.py template.yaml
+Current Folder /home/user/
+    Folder "rootFoler/parentFolder1/sonFolder1/grandsonFolder1" Create Successfully!
+    Folder "rootFoler/parentFolder1/sonFolder2" Create Successfully!
+    Folder "rootFoler/parentFolder2/sonFolder2" Create Successfully!
+    Folder "rootFoler/parentFolder2/sonFolder3/grandsonFolder1" Create Successfully!
+    Folder "rootFoler/parentFolder2/sonFolder3/grandsonFolder2" Create Successfully!
+
 ```
 
 ### result based on tempalte yaml file
