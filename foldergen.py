@@ -4,6 +4,15 @@ import sys
 import os
 import yaml
 
+def yaml_flat(x):
+    for key, value in x.items():
+        if isinstance(value, dict):
+            for k, v in yaml_flat(value):
+                k = f'{key}/{k}'
+                yield (k, v)
+        else:
+            yield (key, value)
+
 def _folder_gen_recursive(filename):
     with open(filename, "r") as file:
         try:
@@ -11,18 +20,22 @@ def _folder_gen_recursive(filename):
         except:
             print ("ERROR: file \"%s\" is not a yaml file.\n"%filename)
             sys.exit(2)
-    def yaml_flat(x):
-        for key, value in x.items():
-            if isinstance(value, dict):
-                for k, v in yaml_flat(value):
-                    k = f'{key}/{k}'
-                    yield (k, v)
-            else:
-                yield (key, value)
     
-    folder_name_list = yaml_flat(data)
-    for folder_name,value in folder_name_list:
-        os.makedirs(folder_name, exist_ok=True)
+    if type(data) is dict:
+        folder_name_list = yaml_flat(data)
+        print("Current Folder "+os.getcwd())
+        for folder_name,value in folder_name_list:
+            if os.path.exists(folder_name):
+                print("    Folder \""+folder_name+"\" already existes!")
+            else:
+                os.makedirs(folder_name, exist_ok=True)
+                if os.path.exists(folder_name):
+                    print("    Folder \""+folder_name+"\" Create Successfully!")
+                else:
+                    print("    Folder \""+folder_name+"\" Create Failed!")
+    else:
+        print ("ERROR: file \"%s\" is not a yaml file.\n"%filename)
+        sys.exit(2)
 
 def usage(sw_name):
     usage = "This is used to recursively create folders based on yaml file with folder structure!" \
@@ -43,8 +56,10 @@ if __name__ == "__main__":
         usage(sw_name)
     else:
         folder_yaml_file=sys.argv[1]
-        if os.path.isfile(folder_yaml_file):
+        if "-h" == folder_yaml_file or "--help" == folder_yaml_file:
+            usage(sw_name)
+        elif os.path.isfile(folder_yaml_file) and os.stat(folder_yaml_file).st_size != 0:
             _folder_gen_recursive(sys.argv[1])
         else:
-            print ("ERROR: No such yaml file \"%s\"\n"%folder_yaml_file)
+            print ("ERROR: No such yaml file \"%s\" or it is empty!\n"%folder_yaml_file)
             sys.exit(2)
